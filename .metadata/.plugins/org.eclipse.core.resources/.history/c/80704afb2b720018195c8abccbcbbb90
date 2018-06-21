@@ -1,0 +1,7 @@
+package beat_it_1;
+
+public class Track {
+	private String trackImage;
+	private String selectedMusic; // 선택시 나오는 하이라이트
+	private String trackMusic; // 게임 플레이 중 나오는 음악
+}

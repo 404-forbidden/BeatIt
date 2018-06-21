@@ -1,0 +1,28 @@
+package beat_it_1;
+
+public class trackButton extends JButton {
+
+}
+
+JButton trackButton1 = new JButton();
+trackButton1.setBounds(Main.SCREEN_WIDTH/2 + 200, Main.SCREEN_HEIGHT/2 - 50, 400, 100);
+trackButton1.setBorderPainted(false);
+trackButton1.setFocusPainted(false);
+trackButton1.addMouseListener(new MouseAdapter() {
+	@Override
+	public void mouseEntered(MouseEvent e) {
+		quitButton.setIcon(quitButtonEnteredImage);
+		trackButton1.setCursor(new Cursor(Cursor.HAND_CURSOR));
+	}
+	@Override
+	public void mouseExited(MouseEvent e) {
+		quitButton.setIcon(quitButtonBasicImage);
+		trackButton1.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+	}
+	@Override
+	public void mousePressed(MouseEvent e) {
+		nowSelected = 1;
+		selectTrack(nowSelected);
+	}
+});
+add(trackButton1);

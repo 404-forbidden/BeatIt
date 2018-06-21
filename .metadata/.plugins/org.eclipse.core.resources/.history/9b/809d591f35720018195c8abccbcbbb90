@@ -1,0 +1,20 @@
+package beat_it_1;
+
+import javax.swing.JButton;
+
+public class trackButton extends JButton {
+	private int trackNum;
+	private int x = Main.SCREEN_WIDTH - 100;
+	private int y;
+	
+	trackButton(int trackNum) {
+		this.trackNum = trackNum;
+		trackButton.setBounds(Main.SCREEN_WIDTH/2 + 200, Main.SCREEN_HEIGHT/2 - 50, 400, 100);
+		trackButton.setBorderPainted(false);
+		trackButton.setFocusPainted(false);
+	}
+}
+// y °ª
+// 0 - 150
+// 1 - 50
+// 2 - -50

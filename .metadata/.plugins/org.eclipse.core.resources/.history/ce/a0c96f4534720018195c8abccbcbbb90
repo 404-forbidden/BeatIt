@@ -1,0 +1,11 @@
+package beat_it_1;
+
+import javax.swing.JButton;
+
+public class trackButton extends JButton {
+	private int trackNum;
+	
+	trackButton(int trackNum) {
+		this.trackNum = trackNum;
+	}
+}
