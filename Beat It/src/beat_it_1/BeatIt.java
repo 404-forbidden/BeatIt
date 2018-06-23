@@ -6,7 +6,6 @@ import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
-import java.awt.RenderingHints;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
@@ -22,11 +21,6 @@ public class BeatIt extends JFrame {
 	private Graphics screenGraphic;
 	
 	private Image background = new ImageIcon(Main.class.getResource("../images/introBackground.jpg")).getImage();
-	private Image gameInfoImage = new ImageIcon(Main.class.getResource("../images/gameInfo.png")).getImage();
-	private Image judgementLineImage = new ImageIcon(Main.class.getResource("../images/judgementLine.png")).getImage();
-	private Image noteRouteImage = new ImageIcon(Main.class.getResource("../images/noteRoute.png")).getImage();
-	private Image noteRouteLineImage = new ImageIcon(Main.class.getResource("../images/noteRouteLine.png")).getImage();
-	private Image noteBasicImage = new ImageIcon(Main.class.getResource("../images/note.jpg")).getImage();
 	
 	private ImageIcon startButtonImage = new ImageIcon(Main.class.getResource("../images/startButton.png"));
 	private ImageIcon startButtonEnteredImage = new ImageIcon(Main.class.getResource("../images/startButtonEntered.png"));
@@ -60,7 +54,14 @@ public class BeatIt extends JFrame {
 	private Music introMusic = new Music("introMusic.mp3", true);
 	private int nowSelected = 0;
 	
+	public static Game game;
+	static String judge;
+	
 	public BeatIt() {
+		trackList.add(new Track("Emotional Future Bass"));
+		trackList.add(new Track("Future Dubstep"));
+		trackList.add(new Track("Raw Power"));
+		
 		setUndecorated(true);
 		setTitle("Beat It");
 		setSize(Main.SCREEN_WIDTH, Main.SCREEN_HEIGHT);
@@ -71,11 +72,9 @@ public class BeatIt extends JFrame {
 		setBackground(new Color(0, 0, 0, 0));
 		setLayout(null);
 		
-		introMusic.start();
+		addKeyListener(new KeyListener());
 		
-		trackList.add(new Track("Emotional Future Bass"));
-		trackList.add(new Track("Future Dubstep"));
-		trackList.add(new Track("Raw Power"));
+		introMusic.start();
 		
 		makeTrackButton(trackButton0, 0);
 		makeTrackButton(trackButton1, 1);
@@ -220,29 +219,15 @@ public class BeatIt extends JFrame {
 			g.drawImage(selectedImage, Main.SCREEN_WIDTH/4 - 150, Main.SCREEN_HEIGHT/2 - 200, null);
 		}
 		if(isGameScreen) {
-			g.drawImage(noteRouteImage, 332, 0, null);
-			g.drawImage(noteRouteImage, 436, 0, null);
-			g.drawImage(noteRouteImage, 540, 0, null);
-			g.drawImage(noteRouteImage, 640, 0, null);
-			g.drawImage(noteRouteImage, 744, 0, null);
-			g.drawImage(noteRouteImage, 848, 0, null);
-			g.drawImage(noteRouteLineImage, 328, 0, null);
-			g.drawImage(noteRouteLineImage, 432, 0, null);
-			g.drawImage(noteRouteLineImage, 536, 0, null);
-			g.drawImage(noteRouteLineImage, 740, 0, null);
-			g.drawImage(noteRouteLineImage, 844, 0, null);
-			g.drawImage(noteRouteLineImage, 948, 0, null);
-			g.drawImage(gameInfoImage, 0, 660, null);
-			g.drawImage(judgementLineImage, 0, 580, null);
-			g.setColor(Color.white);
-			g.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
-			g.setFont(new Font("Arial", Font.BOLD, 30));
-			g.drawString(trackList.get(nowSelected).getTrackName(), 20, 702);
-			g.drawString("Easy", 1190, 702);
-			g.setFont(new Font("Elephant", Font.BOLD, 30));
-			g.drawString("000000", 565, 702);
+			game.screenDraw(g, judge);
 		}
 		paintComponents(g);
+		try {
+			Thread.sleep(5);
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+		}
 		this.repaint();
 	}
 	
@@ -296,10 +281,13 @@ public class BeatIt extends JFrame {
 		trackButton1.setVisible(false);
 		trackButton2.setVisible(false);
 		selectedLabel.setVisible(false);
-		//background = new ImageIcon(Main.class.getResource("../images/gameBackground.jpg")).getImage();
+		game = new Game(trackList.get(nowSelected).getTrackName(), difficulty, trackList.get(nowSelected).getTrackMusic());
+		game.start();
+		setFocusable(true);
 	}
 	
 	public void enterMain() {
+		judge = "None";
 		startButton.setVisible(false);
 		quitButton.setIcon(quitButtonSquareImage);
 		quitButton.setVisible(true);
@@ -315,6 +303,9 @@ public class BeatIt extends JFrame {
 		trackButton2.setVisible(true);
 		selectedLabel.setVisible(true);
 		introMusic.close();
-		selectTrack(0);
+		selectTrack(nowSelected);
+		if(game != null) {
+			game.close();
+		}
 	}
 }

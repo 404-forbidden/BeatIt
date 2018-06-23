@@ -1,0 +1,12 @@
+package beat_it_1;
+
+import java.awt.Image;
+
+import javax.swing.ImageIcon;
+
+public class Note extends Thread {
+
+	private Image noteBasicImage = new ImageIcon(Main.class.getResource("../images/note.jpg")).getImage();
+	private int x, y;
+	
+}
