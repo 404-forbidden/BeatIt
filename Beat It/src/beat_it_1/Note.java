@@ -65,36 +65,43 @@ public class Note extends Thread {
 		if(y >= 613) {
 			System.out.println("Late");
 			close();
+			BeatIt.judge = "Late";
 			return "Late";
 		}
 		else if(y >= 600) {
 			System.out.println("Good");
 			close();
+			BeatIt.judge = "Good";
 			return "Good";
 		}
 		else if(y >= 587) {
 			System.out.println("Great");
 			close();
+			BeatIt.judge = "Great";
 			return "Great";
 		}
 		else if(y >= 573) {
 			System.out.println("Perfect");
 			close();
+			BeatIt.judge = "Perfect";
 			return "Perfect";
 		}
 		else if(y >= 565) {
 			System.out.println("Great");
 			close();
+			BeatIt.judge = "Great";
 			return "Great";
 		}
 		else if(y >= 550) {
 			System.out.println("Good");
 			close();
+			BeatIt.judge = "Good";
 			return "Good";
 		}
 		else if(y >= 535) {
 			System.out.println("Early");
 			close();
+			BeatIt.judge = "Early";
 			return "Early";
 		}
 		return "None";
